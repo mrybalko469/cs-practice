@@ -27,3 +27,22 @@ def read_valid(lines: list[str]) -> list[dict]:
         except ValueError:
             continue
     return records
+
+
+def _means(records: list[dict]) -> dict:
+    sums, counts = {}, {}
+    for r in records:
+        sums[r["city"]] = sums.get(r["city"], 0) + r["temperature"]
+        counts[r["city"]] = counts.get(r["city"], 0) + 1
+    return {c: sums[c] / counts[c] for c in sums}
+
+
+def average_by_city(records: list[dict]) -> dict:
+    return {c: round(m, 1) for c, m in _means(records).items()}
+
+
+def warmest_city(records: list[dict]) -> str:
+    means = _means(records)
+    if not means:
+        raise ValueError("нет записей")
+    return min(means, key=lambda c: (-means[c], c))
