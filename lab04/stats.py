@@ -1,3 +1,17 @@
+import math
+
+
 def parse_record(line: str) -> dict:
-    city, temperature, date = line.split(";")
-    return {"city": city, "temperature": float(temperature), "date": date}
+    parts = [p.strip() for p in line.split(";")]
+    if len(parts) != 3:
+        raise ValueError(f"ожидалось 3 поля, получено {len(parts)}: {line!r}")
+    city, raw_temp, date = parts
+    if not city or not date:
+        raise ValueError(f"пустой город или дата: {line!r}")
+    try:
+        temperature = float(raw_temp.replace(",", "."))
+    except ValueError:
+        raise ValueError(f"температура не число: {raw_temp!r}") from None
+    if not math.isfinite(temperature):
+        raise ValueError(f"температура не число: {raw_temp!r}")
+    return {"city": city, "temperature": temperature, "date": date}
