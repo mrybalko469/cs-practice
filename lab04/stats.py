@@ -15,3 +15,15 @@ def parse_record(line: str) -> dict:
     if not math.isfinite(temperature):
         raise ValueError(f"температура не число: {raw_temp!r}")
     return {"city": city, "temperature": temperature, "date": date}
+
+
+def read_valid(lines: list[str]) -> list[dict]:
+    records = []
+    for line in lines:
+        if not line.strip():
+            continue
+        try:
+            records.append(parse_record(line))
+        except ValueError:
+            continue
+    return records
