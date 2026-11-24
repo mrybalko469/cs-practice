@@ -18,3 +18,22 @@ def vector_report(values: list[float]) -> dict:
     }
 
 
+def change_vector(values: list[float]) -> list[float]:
+    """В независимой копии заменяет индексы 2–4 на 99, затем каждый второй — на -1."""
+    arr = np.asarray(values, dtype=float).copy()
+    arr[2:5] = 99
+    arr[::2] = -1
+    return arr.tolist()
+
+
+def cap_above(values: list[float], limit: float) -> list[float]:
+    """Заменяет все значения, которые больше limit, на limit с помощью одной маски."""
+    arr = np.asarray(values, dtype=float).copy()
+    arr[arr > limit] = limit
+    return arr.tolist()
+
+
+def celsius_to_fahrenheit(values: list[float]) -> list[float]:
+    """Переводит весь вектор температур из Цельсия в Фаренгейт без цикла."""
+    arr = np.asarray(values, dtype=float)
+    return (arr * 9 / 5 + 32).tolist()
