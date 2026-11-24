@@ -54,3 +54,42 @@ for name, fragment in fragments.items():
     print(name + ":\n", fragment)
     print("shape:", fragment.shape)
 
+# Задание 5. Изменение массива с помощью срезов
+print("\nЗадание 5")
+vector = np.array([10, 20, 30, 40, 50])
+vector[1:4] = 0
+print("vector:", vector)
+
+small_matrix = np.arange(1, 10).reshape(3, 3)
+small_matrix[0, :] = -1
+small_matrix[1:, 1:] = 9
+print("small_matrix:\n", small_matrix)
+
+# .copy() нужна, потому что срез и простое присваивание (changed = hours)
+# не создают новый массив, а ссылаются на те же данные. Без копии замены
+# испортили бы исходный hours. .copy() создаёт независимый массив.
+changed_hours = hours.copy()
+changed_hours[2:5] = 99
+changed_hours[::2] = -1
+print("changed_hours:", changed_hours)
+print("исходный hours:", hours)
+
+changed_matrix = matrix.copy()
+changed_matrix[1, :] = 0
+changed_matrix[:, -1] = -1
+changed_matrix[1:4, 1:4] = 100
+print("changed_matrix:\n", changed_matrix)
+print("исходная matrix:\n", matrix)
+
+# Задание 6. Изменение формы
+print("\nЗадание 6")
+numbers = np.arange(12)
+table = numbers.reshape(3, 4)
+transposed = table.T
+print("numbers.shape:", numbers.shape)
+print("table.shape:", table.shape)
+print("transposed.shape:", transposed.shape)
+
+# reshape(3, 4) работает, потому что 3 * 4 = 12 — ровно столько элементов
+# в numbers. reshape(5, 3) требует 5 * 3 = 15 элементов, а их только 12,
+# поэтому NumPy выдаст ValueError: cannot reshape array of size 12 into shape (5,3).
